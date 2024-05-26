@@ -1,0 +1,8 @@
+void dfs(ll st,ll par,vector<ll> &depth,map<ll,vector<ll>> &mp){
+    for(auto x:mp[st]){
+        if(x!=par){
+            depth[x]=depth[st]+1;
+            dfs(x,st,depth,mp);
+        }
+    }
+}
