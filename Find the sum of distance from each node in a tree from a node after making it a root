@@ -1,0 +1,30 @@
+// Find the sum of distance from each node in a tree from a root
+void dfs(ll st,ll par,map<ll,vector<ll>> &adj,vector<ll> &dp,vector<ll> &sub){
+    dp[st]=0;
+    sub[st]=1;
+    for(auto child:adj[st]){
+        if(child!=par){
+            dfs(child,st,adj,dp,sub);
+            dp[st]+=0LL+dp[child]+sub[child];
+            sub[st]+=0LL+sub[child];
+        }
+    }
+}
+
+void changeroot(ll u,ll v,vector<ll> &dp,vector<ll> &sub){
+    dp[u]-=0LL+dp[v]+sub[v];
+    sub[u]-=0LL+sub[v];
+    dp[v]+=0LL+dp[u]+sub[u];
+    sub[v]+=0LL+sub[u];
+}
+// Find the sum of distance from each node in a tree from a node after making it a root
+void reroot(ll st,ll par,map<ll,vector<ll>> &adj,vector<ll> &dp,vector<ll> &sub,vector<ll> &ans){
+    ans[st]=dp[st];
+    for(auto child:adj[st]){
+        if(child!=par){
+            changeroot(st,child,dp,sub);
+            reroot(child,st,adj,dp,sub,ans);
+            changeroot(child,st,dp,sub);
+        }
+    }
+}
